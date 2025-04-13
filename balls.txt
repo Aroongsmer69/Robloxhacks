@@ -1,28 +1,22 @@
--- Client-side script to change the skybox
-local Lighting = game:GetService("Lighting")
+-- Client-side script (LocalScript) that plays a sound very loud on loop
+local soundId = "rbxassetid://70700889250445"
 
--- Clear existing skies first (to prevent duplicates)
-for _, existingSky in ipairs(Lighting:GetChildren()) do
-    if existingSky:IsA("Sky") then
-        existingSky:Destroy()
-    end
-end
+-- Create sound object
+local sound = Instance.new("Sound")
+sound.SoundId = soundId
+sound.Volume = 10  -- Max volume (even beyond normal max of 10)
+sound.Looped = true
+sound.PlayOnRemove = true
+sound.Parent = game:GetService("SoundService")
 
--- Create new skybox with your custom decal
-local newSky = Instance.new("Sky")
-local decalId = "rbxassetid://132830820075183"
+-- Play the sound
+sound:Play()
 
--- Apply the decal to all 6 faces of the skybox
-newSky.SkyboxBk = decalId  -- Back
-newSky.SkyboxDn = decalId  -- Down
-newSky.SkyboxFt = decalId  -- Front
-newSky.SkyboxLf = decalId  -- Left
-newSky.SkyboxRt = decalId  -- Right
-newSky.SkyboxUp = decalId  -- Up
+-- Keep the sound playing even if the script is destroyed
+sound.Parent = game:GetService("SoundService")
 
--- Optional: Adjust sky properties for better appearance
-newSky.StarCount = 0       -- Remove stars since we're using a custom sky
-newSky.SunAngularSize = 0  -- Remove sun
-newSky.MoonAngularSize = 0 -- Remove moon
+-- Optional: Make it even louder by adjusting the SoundService properties
+game:GetService("SoundService").Volume = 1.5  -- This will amplify all sounds
 
-newSky.Parent = Lighting
+-- Optional: Print confirmation
+print("Playing loud sound on loop:", soundId)
