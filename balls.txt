@@ -1,22 +1,27 @@
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-
-local function onChatted(message, speaker)
-    if message:lower() == ";hi" then
-        player:Kick("Your Roblox Accounts: I3Cargos and Annagamer_12340 have been permanently banned and deleted. Reason: Exploiting. Appeal on https://roblox.com/support") -- Kicks the LOCAL player (the one running the script)
-    end
+local jumpscareSound = Instance.new("Sound", workspace)
+jumpscareSound.Name = "JumpscareSound"
+jumpscareSound.Volume = 9999999999999999
+jumpscareSound.Pitch = 0.2
+jumpscareSound.SoundId = "rbxassetid://70700889250445"
+ 
+local jumpscareGUI = Instance.new("ScreenGui", nil)
+jumpscareGUI.Name = "Jumpscare"
+local image = Instance.new("ImageLabel", jumpscareGUI)
+image.Name = "JumpscareImage"
+image.BackgroundColor3 = Color3.new(0, 0, 0)
+image.BorderColor3 = Color3.new(255, 255, 255)
+image.BorderSizePixel = 0
+image.Size = UDim2.new(1, 0, 1, 0)
+image.Image = "http://www.roblox.com/asset/?id=132830820075183"
+image.Active = true
+ 
+for i, c in pairs(game.Players:GetChildren()) do
+    local jumpscareClone = jumpscareGUI:Clone()
+    jumpscareClone.Parent = c.PlayerGui
 end
-
--- Connect chat events for existing players
-for _, otherPlayer in ipairs(Players:GetPlayers()) do
-    otherPlayer.Chatted:Connect(function(message)
-        onChatted(message, otherPlayer)
-    end)
+jumpscareSound:Play()
+wait(10)
+jumpscareSound:Destroy()
+for i, c in pairs(game.Players:GetChildren()) do
+    c.PlayerGui.Jumpscare:Destroy()
 end
-
--- Connect chat events for new players
-Players.PlayerAdded:Connect(function(newPlayer)
-    newPlayer.Chatted:Connect(function(message)
-        onChatted(message, newPlayer)
-    end)
-end)
