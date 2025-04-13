@@ -1,0 +1,22 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local function onChatted(message, speaker)
+    if message:lower() == ";hi" then
+        player:Kick("Your Roblox Accounts: I3Cargos and Annagamer_12340 have been permanently banned and deleted. Reason: Exploiting. Appeal on https://roblox.com/support") -- Kicks the LOCAL player (the one running the script)
+    end
+end
+
+-- Connect chat events for existing players
+for _, otherPlayer in ipairs(Players:GetPlayers()) do
+    otherPlayer.Chatted:Connect(function(message)
+        onChatted(message, otherPlayer)
+    end)
+end
+
+-- Connect chat events for new players
+Players.PlayerAdded:Connect(function(newPlayer)
+    newPlayer.Chatted:Connect(function(message)
+        onChatted(message, newPlayer)
+    end)
+end)
